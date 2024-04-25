@@ -1,0 +1,41 @@
+#########
+CAUTION: the script written are developped for bash shell, please ensure that bash (or equivalent) is used (e.g., run 'bash')
+#########
+
+
+1) Go on bash and then clean clone/copy from pqm4_masked (dont forget the --recursive)
+
+2) Copy all the files from this directory to the root of pqm4_masked
+The following copy must do the job (once run from 'pqm4_masked/'
+
+'cp -f /common/4thib/* .'
+
+3) Install openocd by running 'bash install-openocd.sh' 
+Once done, check if 'openocd --version' shows a version of openocd >=12
+
+4) Setup the environment by running 'bash setup.sh'
+This command shoud create the python virutal env and install dependencies. It also is supposed 
+to build the lipopencm3 library 
+
+5) Once done, you should be able to run the following command.  
+
+```
+./run_bench.sh kyber768
+# For assembly implementation
+python3 parse_bench.py kyber768 asm 16
+# For pure C implementation
+python3 parse_bench.py kyber768 c 16
+```
+
+Using these commands, the file 'report-bench-cycles.pdf' must be generated once finished. 
+You can download it on your pc to see it using the scp utilitary.
+
+
+CAUTION: 
+- The board is connected to '/dev/ttyACM1' (Bus 005 Device 010: ID 0483:374b
+  STMicroelectronics ST-LINK/V2.1). It is normally configured in run_bench.sh,
+  but you might need to adapt the commands displayed in
+  'https://github.com/uclcrypto/pqm4_masked' (e.g., change ttyACM0 to ttyACM1) 
+- the script 'pars_bench.py' provided on the repo is outdated. Please use the
+  provided script parse_bench.py instead. 
+
