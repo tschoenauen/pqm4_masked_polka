@@ -28,7 +28,7 @@ function run_bench() {
         echo "BENCHMARK CYCLES $D SHARES"
         echo "------------------------------"
         CFLAGS="-DNSHARES=$D -DBENCH=1 -DBENCH_RND=0 $CUSE"
-        CFLAGS=$CFLAGS python3 benchmarks.py -p nucleo-l4r5zi --uart /dev/ttyACM0 $TARGET --subspeed -o speed 
+        CFLAGS=$CFLAGS python3 benchmarks.py -p nucleo-l4r5zi --uart /dev/ttyACM1 $TARGET --subspeed -o speed 
     done
     echo "case,bench,shares,calls,perf" > $CYCLES_NAME
     cat benchmarks/speed_sub/crypto_kem/$TARGET/* >> $CYCLES_NAME 

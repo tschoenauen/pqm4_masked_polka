@@ -10,4 +10,6 @@ bin/
 obj/
 bin-host/
 compile_commands.json
+ve/
+*.csv
 .vscode/settings.json
