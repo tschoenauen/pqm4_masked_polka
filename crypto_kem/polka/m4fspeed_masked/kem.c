@@ -42,7 +42,7 @@ int convert_pk_vec2str(plk_pk* rcv, const unsigned char* src){
   memcpy(rcv->b_inv,&src[2*(N*4)], sizeof(poly));
 }
 
-int convert_pk_str2vec(plk_pk* rcv, const unsigned char* src){
+int convert_pk_str2vec(unsigned char* src, const plk_pk* rcv){
   memcpy(&src[0*(N*4)], rcv->a    , sizeof(poly));
   memcpy(&src[1*(N*4)], rcv->b    , sizeof(poly));
   memcpy(&src[2*(N*4)], rcv->b_inv, sizeof(poly));
@@ -54,7 +54,7 @@ int convert_sk_vec2str(plk_sk* rcv, const unsigned char* src){
   return 0;
 }
 
-int convert_sk_str2vec(plk_sk* rcv, const unsigned char* src){
+int convert_sk_str2vec(unsigned char* src, const plk_sk* rcv){
   memcpy(src,rcv->s,sizeof(poly));
   convert_pk_str2vec(&src[N*4],rcv->pk);
   return 0;
