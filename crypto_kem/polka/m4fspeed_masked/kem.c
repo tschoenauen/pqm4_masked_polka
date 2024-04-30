@@ -15,7 +15,7 @@
  * pqm4_masked. If not, see <https://www.gnu.org/licenses/>.
  */
 #include "api.h"
-#include "masked_fips202.h"
+#include "fips202.h"
 #include "params.h"
 #include "polka.h"
 #include "saturnin.h"
@@ -32,7 +32,7 @@ int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
     memcpy(&hash_feed[1*(N*4)],e1,N*4);
     memcpy(&hash_feed[2*(N*4)],e2,N*4);
 
-    masked_shake256(key,32,hash_feed,hf_l);
+    shake256(key,32,hash_feed,hf_l);
     return 0;
 }
 
