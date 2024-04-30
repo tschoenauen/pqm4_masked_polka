@@ -15,7 +15,6 @@
  * pqm4_masked. If not, see <https://www.gnu.org/licenses/>.
  */
 #include "api.h"
-#include "indcpa.h"
 #include "masked_fips202.h"
 #include "params.h"
 #include "polka.h"
