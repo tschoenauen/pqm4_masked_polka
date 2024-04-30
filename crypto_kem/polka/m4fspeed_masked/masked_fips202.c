@@ -24,7 +24,6 @@
 
 #include "bench.h"
 #include "gadgets.h"
-#include "masked.h"
 #include "masked_fips202.h"
 
 #define SHAKE256_RATE 136

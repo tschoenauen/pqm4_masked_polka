@@ -5,7 +5,7 @@
 
 void mask_poly(poly src, msk_poly rcv){
     poly_ring_cpy(src,rcv[0]);
-    for(int i = 1; i < SHARES; i++){
+    for(int i = 1; i < NSHARES; i++){
         poly_random(rcv[i],random_bounded_uniform);
         poly_ring_sub(rcv[0],rcv[i],rcv[0]);
     }
@@ -13,31 +13,31 @@ void mask_poly(poly src, msk_poly rcv){
 
 void unmask_poly(msk_poly src, poly rcv){
     poly_ring_init(rcv);
-    for(int i = 0; i < SHARES; i++) poly_ring_add(rcv,src[i],rcv);
+    for(int i = 0; i < NSHARES; i++) poly_ring_add(rcv,src[i],rcv);
 }
 
 void msk_poly_ring_add(msk_poly a, msk_poly b, msk_poly sum){
-    for(int i = 0; i < SHARES; i ++) poly_ring_add(a[i],b[i],sum[i]);
+    for(int i = 0; i < NSHARES; i ++) poly_ring_add(a[i],b[i],sum[i]);
 }
 
 void msk_poly_ring_sub(msk_poly a, msk_poly b, msk_poly diff){
-    for(int i = 0; i < SHARES; i ++) poly_ring_sub(a[i],b[i],diff[i]);
+    for(int i = 0; i < NSHARES; i ++) poly_ring_sub(a[i],b[i],diff[i]);
 }
 
 void msk_poly_ring_mul(poly a, msk_poly b, msk_poly prod){
-    for(int i = 0; i < SHARES; i ++) poly_ring_mul(a,b[i],prod[i]); //TODO: check paper.
+    for(int i = 0; i < NSHARES; i ++) poly_ring_mul(a,b[i],prod[i]); //TODO: check paper.
 }
 
 void msk_poly_ring_scal(int a, msk_poly b, msk_poly prod){ //a n'est pas masqué car c'est P dans le schéma, une valeur publique.
-    for(int i = 0; i < SHARES; i ++) poly_ring_scal(a,b[i],prod[i]);
+    for(int i = 0; i < NSHARES; i ++) poly_ring_scal(a,b[i],prod[i]);
 }
 
 void msk_poly_ring_red(msk_poly a, int n, msk_poly b){
-    for(int i = 0; i < SHARES; i ++) poly_ring_red(a[i],n,b[i]);
+    for(int i = 0; i < NSHARES; i ++) poly_ring_red(a[i],n,b[i]);
 }
 
 //TODO : make msk_poly * poly = msk_poly function
 
 void print_msk_poly(msk_poly a){
-    for(int s = 0; s < SHARES; s++) print_poly(a[s]);
+    for(int s = 0; s < NSHARES; s++) print_poly(a[s]);
 }

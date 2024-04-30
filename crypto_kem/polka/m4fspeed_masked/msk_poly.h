@@ -6,7 +6,7 @@
 
 #include "poly.h"
 
-typedef poly msk_poly[SHARES];
+typedef poly msk_poly[NSHARES];
 
 /**
  * Mask the source polynomial and store the masked version in a receiver.

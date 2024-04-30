@@ -13,7 +13,7 @@ uint32_t a = 0x01010101;
 uint32_t c = 0xb3b3b3b3;
 
 
-void setup_seed(uint32_t seed){
+void setup_seed(unsigned int seed){
     state = seed;
     i = 0;
 }
