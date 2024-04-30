@@ -88,12 +88,6 @@ int poly_random(poly rcv,c_int (*distr)()){
     return 0;
 }
 
-void poly_compare(poly a, poly b){
-    printf("     A |     B  ||      A |      B ||      A |      B ||      A |      B\n------------------------------------------------------------------------\n");
-    for(int i = 0; i < N/4; i ++){
-        printf("%6x | %6x || %6x | %6x || %6x | %6x || %6x | %6x \n",a[i],b[i],a[i+1],b[i+1],a[i+2],b[i+2],a[i+3],b[i+3]);
-    }
-}
 
 // Operators ==================================================================
 
