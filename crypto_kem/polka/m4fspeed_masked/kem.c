@@ -36,32 +36,32 @@ int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
     return 0;
 }
 
-int convert_pk_vec2str(plk_pk* rcv, const unsigned char* src){
+int convert_pk_vec2str(const unsigned char* src, plk_pk* rcv){
   memcpy(rcv->a    ,&src[0*(N*4)], sizeof(poly));
   memcpy(rcv->b    ,&src[1*(N*4)], sizeof(poly));
   memcpy(rcv->b_inv,&src[2*(N*4)], sizeof(poly));
 }
 
-int convert_pk_str2vec(unsigned char* src, const plk_pk* rcv){
-  memcpy(&src[0*(N*4)], rcv->a    , sizeof(poly));
-  memcpy(&src[1*(N*4)], rcv->b    , sizeof(poly));
-  memcpy(&src[2*(N*4)], rcv->b_inv, sizeof(poly));
+int convert_pk_str2vec(const plk_pk* src, unsigned char* rcv){
+  memcpy(&rcv[0*(N*4)], src->a    , sizeof(poly));
+  memcpy(&rcv[1*(N*4)], src->b    , sizeof(poly));
+  memcpy(&rcv[2*(N*4)], src->b_inv, sizeof(poly));
 }
 
-int convert_sk_vec2str(plk_sk* rcv, const unsigned char* src){
+int convert_sk_vec2str(const unsigned char* src, plk_sk* rcv){
   memcpy(rcv->s,src,sizeof(poly));
   convert_pk_vec2str(rcv->pk,&src[N*4]);
   return 0;
 }
 
-int convert_sk_str2vec(unsigned char* src, const plk_sk* rcv){
-  memcpy(src,rcv->s,sizeof(poly));
+int convert_sk_str2vec(const plk_sk* src, unsigned char* rcv){
+  memcpy(rcv,src->s,sizeof(poly));
   convert_pk_str2vec(&src[N*4],rcv->pk);
   return 0;
 }
 
 int convert_ct_vec2str(plk_cipher* rcv, const unsigned char* src){
-  return 0; 
+  return 0;
 }
 
 int convert_ct_str2vec(plk_cipher* rcv, const unsigned char* src){
@@ -104,9 +104,10 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
  **************************************************/
 int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
                    const unsigned char *pk) {
-
-  unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
-  polka_encrypt(ss,CRYPTO_BYTES,(plk_pk*) pk, (plk_cipher*) ct, npub, sha256_build_key, saturnin_aead_encrypt);
+	unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
+	plk_pk pk;
+	convert_pk_vec2str();
+	polka_encrypt(ss,CRYPTO_BYTES,(plk_pk*) pk, (plk_cipher*) ct, npub, sha256_build_key, saturnin_aead_encrypt);
   return 0;
 }
 
