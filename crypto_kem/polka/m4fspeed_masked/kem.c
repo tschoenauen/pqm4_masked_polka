@@ -50,18 +50,21 @@ int convert_pk_str2vec(const plk_pk* src, unsigned char* rcv){
 
 int convert_sk_vec2str(const unsigned char* src, plk_sk* rcv){
   memcpy(rcv->s,src,sizeof(poly));
-  convert_pk_vec2str(rcv->pk,&src[N*4]);
+  convert_pk_vec2str(&src[N*4],rcv->pk);
   return 0;
 }
 
 int convert_sk_str2vec(const plk_sk* src, unsigned char* rcv){
   memcpy(rcv,src->s,sizeof(poly));
-  convert_pk_str2vec(&src[N*4],rcv->pk);
+  convert_pk_str2vec(src->pk,&rcv[N*4]);
   return 0;
 }
 
 int convert_ct_vec2str(plk_cipher* rcv, const unsigned char* src){
-  return 0;
+  memcpy(rcv->c1,   &src[N*0], sizeof(poly));
+  memcpy(rcv->c2,   &src[N*1], sizeof(poly));
+  memcpy(rcv->c0_l, &src[N*2], sizeof(unsigned long long));
+  memcpy(rcv->c0, &src[N*2+8], sizeof(char)*rcv->c0_l);
 }
 
 int convert_ct_str2vec(plk_cipher* rcv, const unsigned char* src){
@@ -105,9 +108,12 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
 int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
                    const unsigned char *pk) {
 	unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
-	plk_pk pk;
-	convert_pk_vec2str();
-	polka_encrypt(ss,CRYPTO_BYTES,(plk_pk*) pk, (plk_cipher*) ct, npub, sha256_build_key, saturnin_aead_encrypt);
+	plk_pk public_key;
+	convert_pk_vec2str(pk,&pk);
+
+  plk_cipher cipher_text;
+	polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_aead_encrypt);
+  
   return 0;
 }
 
@@ -131,6 +137,8 @@ int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
 int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
                    const unsigned char *sk) {
   unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
+  plk_sk 
+  convert_sk_vec2str()
   polka_decrypt((plk_cipher*) ct,(plk_sk*) sk, ss, CRYPTO_BYTES, npub, sha256_build_key, saturnin_aead_encrypt);
   return 0;
 }
