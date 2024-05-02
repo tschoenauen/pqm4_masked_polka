@@ -7,24 +7,22 @@
 #include <stdio.h>
 #include <time.h>
 
-int i = 0;
-uint32_t state = 0;
-uint32_t a = 0x01010101;
-uint32_t c = 0xb3b3b3b3;
+uint32_t lcg_state = 0;
+uint32_t lcg_multiplier = 0x01010101;
+uint32_t lcg_increment = 0xb3b3b3b3;
 
 
 void setup_seed(unsigned int seed){
-    state = seed;
-    i = 0;
+    lcg_state = seed;
 }
 
 c_int random_uniform(){
     // Update function
-    state = (a*state) + c;
+    lcg_state = (lcg_multiplier*lcg_state) + lcg_increment;
 
     //Return
-    uint16_t low15 = (uint16_t) state & 0x7fff;
-    uint16_t high16 = (uint16_t) (state >> 16);
+    uint16_t low15 = (uint16_t) lcg_state & 0x7fff;
+    uint16_t high16 = (uint16_t) (lcg_state >> 16);
     
     return low15 ^ high16; //As the modulo is a power of 2, I can simply dismiss exceeding bit.
 }
@@ -42,7 +40,7 @@ c_int random_binomial(){
     if((16 % (2 * K)) != 0) printf("ASSERTION ERROR");
 
     if(bit_count == -1) bit_count = 0; //Resetting bit count if required.
-    c_int r;
+    c_int r = 0;
     if((bit_count % 16) == 0){ // bitcount check
         bit_count = 0;
         r = random_uniform();
