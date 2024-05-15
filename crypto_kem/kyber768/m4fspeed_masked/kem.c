@@ -26,6 +26,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Debug purpose
+#include "debug_dev.h"
+
 /*************************************************
  * Name:        crypto_kem_keypair
  *
@@ -40,6 +43,9 @@
  * Returns 0 (success)
  **************************************************/
 int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
+  DEBUG_PRINT("Simple String only"); // Note that the '\n' char is added by default
+  DEBUG_PRINT("Display an vector element: %d",pk[0]); 
+  DEBUG_PRINT("Hello from %s", "keypair"); // Note that the '\n' char is added by default
   size_t i;
   indcpa_keypair(pk, sk);
   for (i = 0; i < KYBER_INDCPA_PUBLICKEYBYTES; i++) {
