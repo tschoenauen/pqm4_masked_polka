@@ -12,33 +12,35 @@ class SubSpeedBenchmark(mupq.StackBenchmark):
     test_type = 'speed_sub'
 
     # Filter function to filter debug from bench
-    def filter_debug(self,log):
-        #Constant for DEBUG parging
+    def filter_debug(self, log):
+        # Constant for DEBUG parsing
         cst_debug = "[DEBUG]"
+        # split lines
         lines = log.split("\n")
-
+        # Keep lines in 2 categories
         lines_bench = []
         lines_debug = []
-
         for l in lines:
             if l.startswith(cst_debug):
                 lines_debug += [l]
             else:
                 lines_bench += [l]
         # Reformat as text
-        text_bench = ft.reduce(lambda a,b:a+'\n'+b, lines_bench)
-        text_debug = ft.reduce(lambda a,b:a+'\n'+b, lines_bench)
-        
+        text_bench = ft.reduce(lambda a,b: a+'\n'+b, lines_bench)
+        text_debug = ft.reduce(lambda a,b: a+'\n'+b, lines_debug)
+        # Return
         return text_bench, text_debug
 
-    def run_test(self,implementation):
-        self.log.info("Benchmarking %s",implementation)
-        output = supepr(mupq.StackBenchmark, self).run_test(implementation)
+    ### Redefine run-test to display output log
+    def run_test(self, implementation):
+        self.log.info("Benchmarking %s", implementation)
+        output = super(mupq.StackBenchmark, self).run_test(implementation)
         # Filter text
         txt_bench, txt_debug = self.filter_debug(output)
-        print("####### START DEBUG LOG #######")
+        print("######## START DEBUG LOG ########")
         print(txt_debug)
-        print("####### SEND DEBUG LOG #######")
+        print("######## END DEBUG LOG ########")
+        assert 'ERROR' not in txt_bench
         self.write_result(implementation, txt_bench)
 
 
