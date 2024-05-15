@@ -17,7 +17,7 @@
 
 void print_cipher(plk_cipher* cipher){
     printf("CIPHER ======================================\nLength = %lld\n",cipher->c0_l);
-    for(int i = 0; i < cipher->c0_l; i++) printf("%c",cipher->c0[i]);
+    for(unsigned int i = 0; i < cipher->c0_l; i++) printf("%c",cipher->c0[i]);
     printf("\nc1 = ");
     print_poly(cipher->c1);
     printf("\nc2 = ");

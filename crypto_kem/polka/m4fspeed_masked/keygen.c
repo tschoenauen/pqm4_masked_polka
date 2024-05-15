@@ -4,7 +4,7 @@
 
 
 int keygen(plk_sk* sk, plk_pk* pk){
-    FILE* key_file = fopen("res/key_0","r");
+    FILE* key_file = fopen("key_0","r");
     if(key_file == NULL){
         printf("ERROR : Unable to open ressource file");
         return 1;   

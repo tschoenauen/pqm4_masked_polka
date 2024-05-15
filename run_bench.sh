@@ -36,11 +36,11 @@ function run_bench() {
 
 TARGET=$SCHEME/m4fspeed_masked
 
-# ASM
-echo "Benchmarking ASM implementation"
-CYCLES_NAME=$SCHEME\_asm_cycles.csv
-CUSE=""
-run_bench
+# ASM - Not used for my master thesis To uncomment if released
+#echo "Benchmarking ASM implementation"
+#CYCLES_NAME=$SCHEME\_asm_cycles.csv
+#CUSE=""
+#run_bench
 
 # C
 echo "Benchmarking C implementation"
