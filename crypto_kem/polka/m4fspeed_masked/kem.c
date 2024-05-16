@@ -25,7 +25,7 @@
 #include <string.h>
 
 #include "debug_dev.h"
-/*
+
 int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
     uint8_t hash_feed[3*N*4]; // Contains coefficients of 3 polynomials containing N coeffs each four times bigger than uint8.
     size_t hf_l = 3*N*4;
@@ -79,7 +79,7 @@ int convert_ct_str2vec(const plk_cipher* src, unsigned char* rcv){
   memcpy(&rcv[N*2+8], src->c0, sizeof(poly));
 	
   return 0;
-}*/
+}
 
 
 /*************************************************
