@@ -13,6 +13,7 @@
 #define B 3801152   // norm Bound. Equal to K*Q*sqrt(N). Standard key element.
 #define P 5         // Polka standard key element.
 
+#ifndef NSHARES
 #define NSHARES 2    // Shares used for masking
-
+#endif
 typedef uint32_t c_int; //In case it needs to be changed later. If changed, change hash_feed definition in polka.c
