@@ -18,16 +18,6 @@ typedef c_int poly[N];
 int poly_load(poly a, c_int* src);
 
 /*
-  * Prints the polynomial a 
-*/
- int print_poly(poly a);
-
-/**
- * Prints two polynomials in order to compare them.
-*/
-void poly_compare(poly a, poly b);
-
-/*
  * Performs the addition of a and b, two polynomials in the ring R_qn
  * The result is stored in sum.
 */

@@ -11,7 +11,6 @@
 
 #include "poly.h"
 #include "prg.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -23,15 +22,6 @@ int poly_load(poly a, c_int* src){
         a[i] = src[i];
     }
     return 0;
-}
-
-int print_poly(poly a){
-    for(int i = N-1 ; i >= 0 ; i--){
-        printf("%u*x^%i",(unsigned int) a[i],i);
-        if(i > 0) printf(" + ");
-        else printf("\n");
-    }
-    return 0; //Default exit code.
 }
 
 int poly_ring_init(poly a){

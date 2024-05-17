@@ -12,7 +12,7 @@
  * more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * pqm4_masked. If not, see <https://www.gnu.org/licenses/>.
+ * pqm4_masked. If not, see <https:www.gnu.org/licenses/>.
  */
 #include "api.h"
 #include "fips202.h"
@@ -27,7 +27,7 @@
 #include "debug_dev.h"
 
 int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
-    uint8_t hash_feed[3*N*4]; // Contains coefficients of 3 polynomials containing N coeffs each four times bigger than uint8.
+    uint8_t hash_feed[3*N*4];  //Contains coefficients of 3 polynomials containing N coeffs each four times bigger than uint8.
     size_t hf_l = 3*N*4;
 
     memcpy(&hash_feed[0*(N*4)],r, N*4); //Copying first poly;
@@ -65,18 +65,18 @@ int convert_sk_str2vec(const plk_sk* src, unsigned char* rcv){
 }
 
 int convert_ct_vec2str(const unsigned char* src, plk_cipher* rcv){
-  memcpy(rcv->c1,   &src[N*0], sizeof(poly));
-  memcpy(rcv->c2,   &src[N*1], sizeof(poly));
-  memcpy(&rcv->c0_l, &src[N*2], sizeof(unsigned long long));
-  memcpy(rcv->c0, &src[N*2+8], sizeof(char)*rcv->c0_l);
+  memcpy( rcv->c1,   &src[N*0],   sizeof(poly));
+  memcpy( rcv->c2,   &src[N*1],   sizeof(poly));
+  memcpy(&rcv->c0_l, &src[N*2],   sizeof(unsigned long long));
+  memcpy( rcv->c0,   &src[N*2+8], sizeof(char)*rcv->c0_l);
   return 0;
 }
 
 int convert_ct_str2vec(const plk_cipher* src, unsigned char* rcv){
-  memcpy(&rcv[N*0], src->c1  , sizeof(poly));
-  memcpy(&rcv[N*1], src->c2  , sizeof(poly));
-  memcpy(&rcv[N*2], &src->c0_l, sizeof(unsigned long long));
-  memcpy(&rcv[N*2+8], src->c0, sizeof(poly));
+  memcpy(&rcv[N*0],   src->c1  , sizeof(poly));
+  memcpy(&rcv[N*1],   src->c2  , sizeof(poly));
+  memcpy(&rcv[N*2],  &(src->c0_l), sizeof(unsigned long long));
+  memcpy(&rcv[N*2+8], src->c0  , sizeof(char)*src->c0_l);
 	
   return 0;
 }
@@ -127,7 +127,9 @@ int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
   unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
   plk_pk public_key;
   convert_pk_vec2str(pk,&public_key);
-  plk_cipher cipher_text;	
+  unsigned char c0[1000];
+  plk_cipher cipher_text;
+  cipher_text.c0 = c0;
   polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_aead_encrypt);
   convert_ct_str2vec(&cipher_text,ct);
   DEBUG_PRINT("SUCCESS");
@@ -156,8 +158,12 @@ int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
   DEBUG_PRINT("Decrypting...");
   unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
   plk_sk secret_key;
+  plk_pk public_key;
+  secret_key.pk = &public_key;
   convert_sk_vec2str(sk,&secret_key);
+  unsigned char c0[1000];
   plk_cipher cipher_text;
+  cipher_text.c0 = c0;
   convert_ct_vec2str(ct,&cipher_text);
   unsigned long long ss_l;
   polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
