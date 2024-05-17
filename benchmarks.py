@@ -36,7 +36,9 @@ class SubSpeedBenchmark(mupq.StackBenchmark):
         self.log.info("Benchmarking %s", implementation)
         output = super(mupq.StackBenchmark, self).run_test(implementation)
         # Filter text
+        print("Begin filter")
         txt_bench, txt_debug = self.filter_debug(output)
+        print("Filter ended")
         print("######## START DEBUG LOG ########")
         print(txt_debug)
         print("######## END DEBUG LOG ########")

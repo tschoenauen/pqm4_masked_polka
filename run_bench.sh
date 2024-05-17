@@ -17,11 +17,11 @@
 #
 
 SCHEME=$1
-MAXD=8
+MAXD=4
 
 function run_bench() {
     rm benchmarks/* -rf 
-    for D in {2..16}
+    for D in {2..4}
     do
         rm -rf obj/ bin/
         echo "------------------------------"
