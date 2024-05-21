@@ -188,7 +188,7 @@ int polka_decrypt(plk_cipher* cipher, plk_sk* secret_key, unsigned char* message
     res = polka_dec_4(r,r_bar,r_prime,e1,e1_bar,e1_prime,e2,e2_bar,e2_prime);
     if(res != 0) return res;
 
-    res = polka_dec_5(cipher,r,e1,e2,message,message_length,npub,key_build,dem_D);
+    //res = polka_dec_5(cipher,r,e1,e2,message,message_length,npub,key_build,dem_D);
 
     return 0;
 }
