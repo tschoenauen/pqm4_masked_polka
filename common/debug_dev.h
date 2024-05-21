@@ -17,11 +17,12 @@ static size_t __str_len(const char * str) {
     return ptr - str;
 }
 
-#define DEBUG_PRINT(...) do { \
+#define DEBUG_PRINT(...) do { ; } while(0)/*\
     char buf[MAX_STR_SIZE]; \
     const char * prefix = "[DEBUG] "; \
     memcpy(buf, prefix, __str_len(prefix)); \
     sprintf(buf + __str_len(prefix), __VA_ARGS__); hal_send_str(buf); \
-} while (0)
+} while (0)*/
 
 #endif // DEBUG_DEV_H
+

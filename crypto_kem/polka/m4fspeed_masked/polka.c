@@ -135,7 +135,6 @@ int polka_encrypt(unsigned char* message, unsigned long long message_length, plk
     poly_ring_mul(r,public_key->a,cipher->c1);
     poly_ring_add(cipher->c1,e1,cipher->c1);
 
-
     poly_ring_mul(r,public_key->b,cipher->c2);
     poly_ring_add(cipher->c2,e2,cipher->c2);
 
