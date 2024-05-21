@@ -168,7 +168,7 @@ int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
   cipher_text.c0 = c0;
   convert_ct_vec2str(ct,&cipher_text);
   unsigned long long ss_l;
-  //polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
+  polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
   //DEBUG_PRINT("SUCCESS");
   return 0;
 }

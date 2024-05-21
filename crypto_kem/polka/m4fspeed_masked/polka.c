@@ -9,10 +9,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "debug_dev.h"
 
 int polka_dec_1(plk_cipher* cipher, plk_sk* secret_key, poly rp, poly e1p, poly e2p, poly c1b, poly c2b){
-    DEBUG_PRINT("Step 1");
     poly_random(rp,random_binomial);
     poly_random(e1p,random_binomial);
     poly_random(e2p,random_binomial);
