@@ -35,9 +35,3 @@ void msk_poly_ring_scal(int a, msk_poly b, msk_poly prod){ //a n'est pas masqué
 void msk_poly_ring_red(msk_poly a, int n, msk_poly b){
     for(int i = 0; i < NSHARES; i ++) poly_ring_red(a[i],n,b[i]);
 }
-
-//TODO : make msk_poly * poly = msk_poly function
-
-void print_msk_poly(msk_poly a){
-    for(int s = 0; s < NSHARES; s++) print_poly(a[s]);
-}

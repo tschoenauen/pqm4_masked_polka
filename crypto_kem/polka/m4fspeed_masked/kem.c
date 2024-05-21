@@ -12,7 +12,7 @@
  * more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * pqm4_masked. If not, see <https://www.gnu.org/licenses/>.
+ * pqm4_masked. If not, see <https:www.gnu.org/licenses/>.
  */
 #include "api.h"
 #include "fips202.h"
@@ -27,7 +27,7 @@
 #include "debug_dev.h"
 
 int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
-    uint8_t hash_feed[3*N*4]; // Contains coefficients of 3 polynomials containing N coeffs each four times bigger than uint8.
+    uint8_t hash_feed[3*N*4];  //Contains coefficients of 3 polynomials containing N coeffs each four times bigger than uint8.
     size_t hf_l = 3*N*4;
 
     memcpy(&hash_feed[0*(N*4)],r, N*4); //Copying first poly;
@@ -65,18 +65,18 @@ int convert_sk_str2vec(const plk_sk* src, unsigned char* rcv){
 }
 
 int convert_ct_vec2str(const unsigned char* src, plk_cipher* rcv){
-  memcpy(rcv->c1,   &src[N*0], sizeof(poly));
-  memcpy(rcv->c2,   &src[N*1], sizeof(poly));
-  memcpy(&rcv->c0_l, &src[N*2], sizeof(unsigned long long));
-  memcpy(rcv->c0, &src[N*2+8], sizeof(char)*rcv->c0_l);
+  memcpy( rcv->c1,   &src[N*0],   sizeof(poly));
+  memcpy( rcv->c2,   &src[N*1],   sizeof(poly));
+  memcpy(&rcv->c0_l, &src[N*2],   sizeof(unsigned long long));
+  memcpy( rcv->c0,   &src[N*2+8], sizeof(char)*rcv->c0_l);
   return 0;
 }
 
 int convert_ct_str2vec(const plk_cipher* src, unsigned char* rcv){
-  memcpy(&rcv[N*0], src->c1  , sizeof(poly));
-  memcpy(&rcv[N*1], src->c2  , sizeof(poly));
-  memcpy(&rcv[N*2], &src->c0_l, sizeof(unsigned long long));
-  memcpy(&rcv[N*2+8], src->c0, sizeof(poly));
+  memcpy(&rcv[N*0],   src->c1  , sizeof(poly));
+  memcpy(&rcv[N*1],   src->c2  , sizeof(poly));
+  memcpy(&rcv[N*2],  &(src->c0_l), sizeof(unsigned long long));
+  memcpy(&rcv[N*2+8], src->c0  , sizeof(char)*src->c0_l);
 	
   return 0;
 }
