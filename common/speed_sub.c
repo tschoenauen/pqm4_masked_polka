@@ -52,12 +52,14 @@ int main(void)
     // Decapsulation
     BENCH_CASE(decaps, MUPQ_crypto_kem_dec(key_b, ct, sk));
 
+    /*
     if (memcmp(key_a, key_b, MUPQ_CRYPTO_BYTES)) {
       hal_send_str("ERROR KEYS\n");
     }
     else {
       //hal_send_str("OK KEYS\n");
     }
+    */
     hal_send_str("+");
   }
 

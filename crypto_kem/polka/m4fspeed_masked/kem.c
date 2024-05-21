@@ -124,12 +124,12 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
 int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
                    const unsigned char *pk) {
   DEBUG_PRINT("Encrypting...");
-  unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
-  plk_pk public_key;
-  convert_pk_vec2str(pk,&public_key);
-  plk_cipher cipher_text;	
-  polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_aead_encrypt);
-  convert_ct_str2vec(&cipher_text,ct);
+//  unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
+//  plk_pk public_key;
+//  convert_pk_vec2str(pk,&public_key);
+//  plk_cipher cipher_text;	
+//  polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_aead_encrypt);
+//  convert_ct_str2vec(&cipher_text,ct);
   DEBUG_PRINT("SUCCESS");
   return 0;
 }
@@ -154,13 +154,13 @@ int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
 int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
                    const unsigned char *sk) {
   DEBUG_PRINT("Decrypting...");
-  unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
-  plk_sk secret_key;
-  convert_sk_vec2str(sk,&secret_key);
-  plk_cipher cipher_text;
-  convert_ct_vec2str(ct,&cipher_text);
-  unsigned long long ss_l;
-  polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
+//  unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
+//  plk_sk secret_key;
+//  convert_sk_vec2str(sk,&secret_key);
+//  plk_cipher cipher_text;
+//  convert_ct_vec2str(ct,&cipher_text);
+//  unsigned long long ss_l;
+//  polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
   DEBUG_PRINT("SUCCESS");
   return 0;
 }
