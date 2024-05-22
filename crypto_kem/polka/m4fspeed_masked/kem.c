@@ -79,7 +79,6 @@ int convert_ct_str2vec(const plk_cipher* src, unsigned char* rcv){
   memcpy(&rcv[N*1],     src->c2   , sizeof(poly));
   memcpy(&rcv[N*2],   &(src->c0_l), sizeof(unsigned long long));
   memcpy(&rcv[(N*2)+8], src->c0   , sizeof(char)*src->c0_l);
-
   return 0;
 }
 
