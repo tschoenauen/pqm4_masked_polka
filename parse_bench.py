@@ -31,8 +31,7 @@ cycles_name = target+"_"+subtarget+"_cycles.csv"
 plot_RND = False
 
 if target == "kyber768":
-    benchs = ['my_cmp_finalize',"decaps","keccak",
-            'my_masked_poly_cmp',"my_cbd","my_frommsg","my_tomsg","my_matacc","my_ntt"]
+    benchs = ["decaps"]#['my_cmp_finalize',"decaps","keccak",'my_masked_poly_cmp',"my_cbd","my_frommsg","my_tomsg","my_matacc","my_ntt"]
     
     #benchs +=["my_dense2bs","my_bs2dense"]
     #benchs += ["my_secadd","my_seca2b"]
@@ -40,6 +39,9 @@ elif target == "saber":
     benchs = ["decaps","keccak",
             "my_cbd","my_cmp_finalize",
             "my_masked_poly_cmp","my_matacc","my_ntt","my_tomsg"] 
+
+elif target == "polka":
+    benchs = ["decaps"] #Add benchs here 
 
 def get_perf(df,l,k):
     for x in l:
@@ -80,10 +82,10 @@ if __name__ == "__main__":
             continue
         plt.plot(ds,cycle/cycles["decaps"],label=k)
         full += cycle
-    plt.plot(ds,(cycles["decaps"]  - full) / cycles["decaps"],label="others")
+    plt.plot(ds,cycles["decaps"],label = "decaps")#(cycles["decaps"]  - full) / cycles["decaps"],label="others")
     plt.legend()
     plt.grid(True,which="both",ls="--")
-    plt.savefig("report-bench-cycles.pdf")
+    plt.savefig(f"report-bench-cycles-{target}.pdf")
 
     # print rnd ratio numbers
     if plot_RND:

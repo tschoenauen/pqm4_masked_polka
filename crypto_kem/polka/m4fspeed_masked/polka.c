@@ -102,7 +102,8 @@ int polka_dec_5(plk_cipher* cipher, poly r, poly e1, poly e2, unsigned char* mes
         const unsigned char*)){
             unsigned char key[32];
             key_build(r,e1,e2,key);
-            return dem_D(message,message_length, NULL, cipher->c0, cipher->c0_l, NULL, 0, npub, key);
+            return 0;
+	    return dem_D(message,message_length, NULL, cipher->c0, cipher->c0_l, NULL, 0, npub, key);
 
         }
 

@@ -42,7 +42,6 @@ class SubSpeedBenchmark(mupq.StackBenchmark):
         print("######## START DEBUG LOG ########")
         print(txt_debug)
         print("######## END DEBUG LOG ########")
-        print(txt_bench)
         #assert 'ERROR' not in txt_bench
         self.write_result(implementation, txt_bench)
 

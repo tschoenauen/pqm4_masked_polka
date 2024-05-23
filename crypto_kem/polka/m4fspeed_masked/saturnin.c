@@ -190,18 +190,18 @@ int saturnin_aead_decrypt
     (void)nsec;
 
     /* Validate the ciphertext length and set the return "mlen" value */
-    if (clen < SATURNIN_TAG_SIZE)
-        return -1;
-    *mlen = clen - SATURNIN_TAG_SIZE;
+    //if (clen < SATURNIN_TAG_SIZE)
+    //    return -1;
+    //*mlen = clen - SATURNIN_TAG_SIZE;
 
     /* Format the input block from the padded nonce */
-    memcpy(block, npub, 16);
-    block[16] = 0x80;
-    memset(block + 17, 0, 15);
+    //memcpy(block, npub, 16);
+    //block[16] = 0x80;
+    //memset(block + 17, 0, 15);
 
     /* Encrypt the nonce to initialize the authentication phase */
-    memcpy(tag, k, 32);
-    saturnin_block_encrypt_xor(block, tag, SATURNIN_DOMAIN_10_2);
+    //memcpy(tag, k, 32);
+    //saturnin_block_encrypt_xor(block, tag, SATURNIN_DOMAIN_10_2);
 
     /* Authenticate the associated data and the ciphertext */
     //saturnin_authenticate
