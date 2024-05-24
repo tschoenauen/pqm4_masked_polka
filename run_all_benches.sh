@@ -16,12 +16,11 @@
 # pqm4_masked. If not, see <https://www.gnu.org/licenses/>.
 #
 
-SCHEME=$1
-MAXD=4
+MAXD=$1
 
 function run_bench() {
     rm benchmarks/* -rf 
-    for D in {2..4}
+    for (( D = 2; D <= $MAXD; D++))
     do
         rm -rf obj/ bin/
         echo "------------------------------"
@@ -34,10 +33,21 @@ function run_bench() {
     cat benchmarks/speed_sub/crypto_kem/$TARGET/* >> $CYCLES_NAME 
 }
 
-TARGET=$SCHEME/m4fspeed_masked
+
+# ASM - Not used for my master thesis To uncomment if released
+#echo "Benchmarking ASM implementation"
+#CYCLES_NAME=$SCHEME\_asm_cycles.csv
+#CUSE=""
+#run_bench
 
 # C
-echo "Benchmarking C implementation"
-CYCLES_NAME=$SCHEME\_c_cycles.csv
+echo "Benchmarking KYBER"
+CYCLES_NAME=kyber768_c_cycles.csv
+TARGET=kyber768/m4fspeed_masked
+CUSE="-DUSEC"
+run_bench
+echo "Benchmarking POLKA"
+CYCLES_NAME=polka_c_cycles.csv
+TARGET=polka/m4fspeed_masked
 CUSE="-DUSEC"
 run_bench

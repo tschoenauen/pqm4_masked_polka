@@ -13,6 +13,7 @@
 #include "prg.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include "bench.h"
 
 // Tools ======================================================================
 
@@ -82,6 +83,7 @@ int poly_random(poly rcv,c_int (*distr)()){
 // Operators ==================================================================
 
 int poly_ring_add(poly a, poly b, poly sum){
+    start_bench(plk_poly_add);
     int64_t result[N];
     for(int i = 0; i < N; i ++){
         result[i] = a[i] + b[i]; //TODO : Correct bug where negative values makes bad things.
@@ -90,10 +92,12 @@ int poly_ring_add(poly a, poly b, poly sum){
         result[i] = ((result[i] % Q) + Q) % Q;
     }
     for(int i = 0; i < N; i++) sum[i] = (c_int) result[i];
+    stop_bench(plk_poly_add);
     return 1;
 }
 
 int poly_ring_sub(poly a, poly b, poly diff){
+    start_bench(plk_poly_sub);
     int64_t result[N];
     for(int i = 0; i < N; i ++){
         result[i] = Q + a[i] - b[i]; //TODO : Correct bug where negative values makes bad things.
@@ -102,10 +106,12 @@ int poly_ring_sub(poly a, poly b, poly diff){
         result[i] = ((result[i] % Q) + Q) % Q;
     }
     for(int i = 0; i < N; i++) diff[i] = (c_int) result[i];
+    stop_bench(plk_poly_sub);
     return 1;
 }
 
 int poly_ring_mul(poly a, poly b, poly prod){
+    start_bench(plk_poly_mul);
     int64_t result[N];
     for(int i = 0; i < N; i ++){
         result[i] = 0;
@@ -121,10 +127,12 @@ int poly_ring_mul(poly a, poly b, poly prod){
         result[i] = ((result[i] % Q) + Q) % Q;
     }
     for(int i = 0; i < N; i++) prod[i] = (c_int) result[i];
+    stop_bench(plk_poly_mul);
     return 1;
 }
 
 int poly_ring_scal(int a, poly b, poly prod){
+    start_bench(plk_poly_scal);
     int64_t result[N];
     for(int i = 0; i < N; i ++){
         result[i] = a * b[i];
@@ -135,7 +143,7 @@ int poly_ring_scal(int a, poly b, poly prod){
     for(int i = 0; i < N; i ++){
         prod[i] = (c_int) result[i];
     }
-
+    stop_bench(plk_poly_scal);
     return 0;
 }
 

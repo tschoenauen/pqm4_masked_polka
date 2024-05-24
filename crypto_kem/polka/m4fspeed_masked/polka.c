@@ -8,7 +8,7 @@
 #include "msk_poly.h"
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "bench.h"
 
 int polka_dec_1(plk_cipher* cipher, plk_sk* secret_key, poly rp, poly e1p, poly e2p, poly c1b, poly c2b){
     poly_random(rp,random_binomial);
@@ -161,32 +161,42 @@ int polka_decrypt(plk_cipher* cipher, plk_sk* secret_key, unsigned char* message
 
     
     int res = 0;
-
+	
+    start_bench(plk_dec_1);
     poly r_prime;
     poly e1_prime;
     poly e2_prime;
     poly c1_bar;
     poly c2_bar;
-    res = polka_dec_1(cipher,secret_key,r_prime,e1_prime,e2_prime,c1_bar,c2_bar);
+    polka_dec_1(cipher,secret_key,r_prime,e1_prime,e2_prime,c1_bar,c2_bar);
     if(res != 0) return res;
+    stop_bench(plk_dec_1);
 
+    start_bench(plk_dec_2);
     poly temp;
     res = polka_dec_2(secret_key,temp,c1_bar);
     if(res != 0) return res;
+    stop_bench(plk_dec_2);
 
+    start_bench(plk_dec_3);
     poly e2_bar;
     poly e1_bar;
     poly r_bar;
     res = polka_dec_3(secret_key,c2_bar,temp,e2_bar, r_bar,c1_bar,e1_bar);
     if(res != 0) return res;
+    stop_bench(plk_dec_3);
 
+    start_bench(plk_dec_4);
     poly r;
     poly e1;
     poly e2;
     res = polka_dec_4(r,r_bar,r_prime,e1,e1_bar,e1_prime,e2,e2_bar,e2_prime);
     if(res != 0) return res;
+    stop_bench(plk_dec_4);
 
+    start_bench(plk_dec_5);
     res = polka_dec_5(cipher,r,e1,e2,message,message_length,npub,key_build,dem_D);
+    stop_bench(plk_dec_5);
 
     return 0;
 }

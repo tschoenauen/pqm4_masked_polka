@@ -31,8 +31,7 @@
 #ifndef BENCH_RND
 #define BENCH_RND 0 // Count randomness instead of time ?
 #endif
-
-#define BENCH_CASES X(keypair) X(encaps) X(decaps) X(keccak) X(my_secadd) X(my_masked_poly_cmp) X(my_cbd) X(my_tomsg) X(my_frommsg) X(my_cmp_finalize) X(my_matacc) X(my_ntt) X(my_seca2b) X(my_dense2bs) X(my_bs2dense) X(my_seca2b_modp) X(my_dense2bs_u32) X(decomp_1) X(comp_1) X(comp_du) X(comp_dv) X(cbd_b2a) X(cbd_bool) X(my_secaddmodp_12) X(my_secadd_12)
+#define BENCH_CASES X(keypair) X(encaps) X(decaps) X(keccak) X(my_secadd) X(my_masked_poly_cmp) X(my_cbd) X(my_tomsg) X(my_frommsg) X(my_cmp_finalize) X(my_matacc) X(my_ntt) X(my_seca2b) X(my_dense2bs) X(my_bs2dense) X(my_seca2b_modp) X(my_dense2bs_u32) X(decomp_1) X(comp_1) X(comp_du) X(comp_dv) X(cbd_b2a) X(cbd_bool) X(my_secaddmodp_12) X(my_secadd_12) X(plk_dec_1) X(plk_dec_2) X(plk_dec_3) X(plk_dec_4) X(plk_dec_5) X(plk_poly_add) X(plk_poly_sub) X(plk_poly_mul) X(plk_poly_scal)
 
 typedef enum {
 #define X(x) x,
