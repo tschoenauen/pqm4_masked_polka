@@ -10,28 +10,43 @@ const poly default_polka_key_s = {0,0,0,59392,1,1,1,0,1,59392,0,0,1,0,1,59392,59
 
 
 int keygen(plk_sk* sk, plk_pk* pk){
-    /*FILE* key_file = fopen("key_0","r");
+    /*
+    //Code used to read a key from a file storing coefficients on 16bits.
+    //As file reading is not possible on the Cortex-M4, we read hardcoded
+    //values from above.
+    FILE* key_file = fopen("key_0","r");
     if(key_file == NULL){
         printf("ERROR : Unable to open ressource file");
-        return 1;   
+        return 1;
+    
+    //The key file stores data on 16bits, the buffers reads them as such and then we cast the values on c_int.
+	
+    uint32_t buf[N];
+    fread(buf, sizeof(uint32_t), N, key_file);
+    for(int i = 0; i < N; i++) pk->a[i] = buf[i];
+
+    fread(buf, sizeof(uint32_t), N, key_file);
+    for(int i = 0; i < N; i++) pk->b[i] = buf[i];
+    
+    fread(buf, sizeof(uint32_t), N, key_file);
+    for(int i = 0; i < N; i++) pk->b_inv[i] = buf[i];
+    
+    fread(buf, sizeof(uint32_t), N, key_file);
+    for(int i = 0; i < N; i++) sk->s[i] = buf[i];
+
+    sk->pk = pk;
+    fclose(key_file);
     }*/
 
-    //The key file stores data on 16bits, the buffers reads them as such and then we cast the values on c_int.
-    //uint32_t buf[N];
-    //fread(buf, sizeof(uint32_t), N, key_file);
     for(int i = 0; i < N; i++) pk->a[i] = default_polka_key_a[i];
 
-    //fread(buf, sizeof(uint32_t), N, key_file);
     for(int i = 0; i < N; i++) pk->b[i] = default_polka_key_b[i];
 
-    //fread(buf, sizeof(uint32_t), N, key_file);
     for(int i = 0; i < N; i++) pk->b_inv[i] = default_polka_key_b_inv[i];
 
-    //fread(buf, sizeof(uint32_t), N, key_file);
     for(int i = 0; i < N; i++) sk->s[i] = default_polka_key_s[i];
 
     sk->pk = pk;
-    //fclose(key_file);
 
 
     return 0;

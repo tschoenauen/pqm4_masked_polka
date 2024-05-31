@@ -23,11 +23,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Placeholder for memcpy defined in string.h
 void* memcpy(void* dest, const void* src,size_t n){
 	for(int i = 0; i < (int)n; i ++) ((char*)dest)[i] = ((char*)src)[i];
 	return src;
 }
 
+/************************************************
+ * Polka key builder wrapped around sha256.
+ * Hashes three polynomials into a key.
+ ************************************************/
 int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
     uint8_t hash_feed[3*N*4];  //Contains coefficients of 3 polynomials containing N coeffs each four times bigger than uint8.
     size_t hf_l = 3*N*4;
@@ -40,6 +45,11 @@ int sha256_build_key(poly r, poly e1, poly e2, unsigned char* key){
     return 0;
 }
 
+
+/***********************************************
+ * Data converter. Converts a polka public key
+ * contained in an array into a struct plk_pk.
+ ***********************************************/
 int convert_pk_vec2str(const unsigned char* src, plk_pk* rcv){
   memcpy(rcv->a    ,&src[0*(N*4)], sizeof(poly));
   memcpy(rcv->b    ,&src[1*(N*4)], sizeof(poly));
@@ -47,6 +57,12 @@ int convert_pk_vec2str(const unsigned char* src, plk_pk* rcv){
   return 0;
 }
 
+
+
+/***********************************************
+ * Data converter. Converts a polka public key
+ * contained in a struct plk_pk into an array.
+ ***********************************************/
 int convert_pk_str2vec(const plk_pk* src, unsigned char* rcv){
   memcpy(&rcv[0*(N*4)], src->a    , sizeof(poly));
   memcpy(&rcv[1*(N*4)], src->b    , sizeof(poly));
@@ -54,18 +70,36 @@ int convert_pk_str2vec(const plk_pk* src, unsigned char* rcv){
   return 0;
 }
 
+
+
+/***********************************************
+ * Data converter. Converts a polka secret key
+ * contained in an array into a struct plk_pk.
+ ***********************************************/
 int convert_sk_vec2str(const unsigned char* src, plk_sk* rcv){
   memcpy(rcv->s,src,sizeof(poly));
   convert_pk_vec2str(&src[N*4],rcv->pk);
   return 0;
 }
 
+
+
+/***********************************************
+ * Data converter. Converts a polka secret key
+ * contained in a struct plk_sk into an array.
+ ***********************************************/
 int convert_sk_str2vec(const plk_sk* src, unsigned char* rcv){
   memcpy(rcv,src->s,sizeof(poly));
   convert_pk_str2vec(src->pk,&rcv[N*4]);
   return 0;
 }
 
+
+
+/***********************************************
+ * Data converter. Converts a polka ciphertext
+ * contained in an array into a struct plk_cipher.
+ ***********************************************/
 int convert_ct_vec2str(const unsigned char* src, plk_cipher* rcv){
   memcpy( rcv->c1,   &src[N*0],   sizeof(poly));
   memcpy( rcv->c2,   &src[N*1],   sizeof(poly));
@@ -74,6 +108,12 @@ int convert_ct_vec2str(const unsigned char* src, plk_cipher* rcv){
   return 0;
 }
 
+
+
+/***********************************************
+ * Data converter. Converts a polka ciphertext
+ * contained in a struct plk_cipher into an array.
+ ***********************************************/
 int convert_ct_str2vec(const plk_cipher* src, unsigned char* rcv){
   memcpy(&rcv[N*0],     src->c1   , sizeof(poly));
   memcpy(&rcv[N*1],     src->c2   , sizeof(poly));
@@ -97,13 +137,11 @@ int convert_ct_str2vec(const plk_cipher* src, unsigned char* rcv){
  * Returns 0 (success)
  **************************************************/
 int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
-  ////DEBUG_PRINT("Generating keys...");
   plk_pk public_key;
   plk_sk secret_key;
-  keygen(&secret_key,&public_key); //Links the keys. 
+  keygen(&secret_key,&public_key); //Links the keys. For now and as it should not impact the performances, keys are hardcoded in keygen.c
   convert_pk_str2vec(&public_key,pk);
   convert_sk_str2vec(&secret_key,sk);
-  ////DEBUG_PRINT("SUCCESS");
   return 0;
 }
 
@@ -124,16 +162,14 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
  **************************************************/
 int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
                    const unsigned char *pk) {
-  //DEBUG_PRINT("Encrypting...");
   unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
   plk_pk public_key;
   convert_pk_vec2str(pk,&public_key);
-  unsigned char c0[1024];
+  unsigned char c0[1024]; //Symmetric ciphertext container.
   plk_cipher cipher_text;
   cipher_text.c0 = c0;
   polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_aead_encrypt);
   convert_ct_str2vec(&cipher_text,ct);
-  //DEBUG_PRINT("SUCCESS");
   return 0;
 }
 
@@ -156,7 +192,6 @@ int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
  **************************************************/
 int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
                    const unsigned char *sk) {
-  //DEBUG_PRINT("Decrypting...");
   unsigned char npub[16] = "000000000000000"; //Does not impact performances so it is a fix value for performances benchmarks.
   plk_sk secret_key;
   plk_pk public_key;
@@ -168,6 +203,5 @@ int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
   convert_ct_vec2str(ct,&cipher_text);
   unsigned long long ss_l;
   polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
-  //DEBUG_PRINT("SUCCESS");
   return 0;
 }
