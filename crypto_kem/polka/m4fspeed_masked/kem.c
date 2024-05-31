@@ -131,7 +131,7 @@ int crypto_kem_enc(unsigned char *ct, unsigned char *ss,
   unsigned char c0[1024];
   plk_cipher cipher_text;
   cipher_text.c0 = c0;
-  polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_short_aead_encrypt);
+  polka_encrypt(ss,CRYPTO_BYTES,&public_key, &cipher_text, npub, sha256_build_key, saturnin_aead_encrypt);
   convert_ct_str2vec(&cipher_text,ct);
   //DEBUG_PRINT("SUCCESS");
   return 0;
@@ -167,7 +167,7 @@ int crypto_kem_dec(unsigned char *ss, const unsigned char *ct,
   cipher_text.c0 = c0;
   convert_ct_vec2str(ct,&cipher_text);
   unsigned long long ss_l;
-  polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_short_aead_decrypt);
+  polka_decrypt(&cipher_text, &secret_key, ss, &ss_l, npub, sha256_build_key, saturnin_aead_decrypt);
   //DEBUG_PRINT("SUCCESS");
   return 0;
 }

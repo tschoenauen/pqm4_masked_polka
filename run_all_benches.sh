@@ -20,7 +20,7 @@ MAXD=$1
 
 function run_bench() {
     rm benchmarks/* -rf 
-    for (( D = 2; D <= $MAXD; D++))
+    for (( D = 1; D <= $MAXD; D++))
     do
         rm -rf obj/ bin/
         echo "------------------------------"

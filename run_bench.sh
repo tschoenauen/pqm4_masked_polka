@@ -21,7 +21,7 @@ MAXD=4
 
 function run_bench() {
     rm benchmarks/* -rf 
-    for D in {2..4}
+    for D in {1..2}
     do
         rm -rf obj/ bin/
         echo "------------------------------"

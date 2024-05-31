@@ -441,9 +441,6 @@ void secadd_modp(size_t nshares, size_t kbits, uint32_t q, uint32_t *out,
 void seca2b(size_t nshares, size_t kbits, uint32_t *in, size_t in_msk_stride,
             size_t in_data_stride) {
 
-  if (nshares == NSHARES)
-    start_bench(my_seca2b);
-
   size_t i, d;
 
   if (nshares == 1) {
@@ -478,8 +475,6 @@ void seca2b(size_t nshares, size_t kbits, uint32_t *in, size_t in_msk_stride,
   secadd(nshares, kbits, kbits, in, in_msk_stride, in_data_stride, expanded_low,
          1, nshares, expanded_high, 1, nshares);
 
-  if (nshares == NSHARES)
-    stop_bench(my_seca2b);
 }
 
 /*************************************************
@@ -500,8 +495,6 @@ void seca2b_modp(size_t nshares, size_t kbits, uint32_t p, uint32_t *in,
                  size_t in_msk_stride, size_t in_data_stride) {
 
   size_t i, d;
-  if (nshares == NSHARES)
-    start_bench(my_seca2b_modp);
 
   if (nshares == 1) {
     return;
@@ -547,8 +540,6 @@ void seca2b_modp(size_t nshares, size_t kbits, uint32_t p, uint32_t *in,
   secadd_constant_bmsk(nshares, kbits, kbits, in, in_msk_stride, in_data_stride,
                        u, 1, nshares, p, &u[kbits * nshares], 1);
 
-  if (nshares == NSHARES)
-    stop_bench(my_seca2b_modp);
 }
 
 /*************************************************

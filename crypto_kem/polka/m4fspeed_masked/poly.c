@@ -71,11 +71,12 @@ int poly_ring_eq(poly a,poly b){
 }
 
 int poly_random(poly rcv,c_int (*distr)()){
+    start_bench(plk_poly_random);
     reset_bit_count();
     for(int i = 0; i < N; i++){
         rcv[i] = distr();
     }
-    
+    stop_bench(plk_poly_random);
     return 0;
 }
 
@@ -148,6 +149,7 @@ int poly_ring_scal(int a, poly b, poly prod){
 }
 
 int poly_ring_norm(poly p){
+    start_bench(plk_poly_norm);
     int norm = p[0];
     for(int i = 0; i < N; i++){
         int coeff = 0;
@@ -155,6 +157,7 @@ int poly_ring_norm(poly p){
         else coeff = p[i];
         if (norm < coeff) norm = coeff;
     }
+    stop_bench(plk_poly_norm);
     return norm;
 }
 

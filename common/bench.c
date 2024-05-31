@@ -80,7 +80,7 @@ void start_bench(bench_case bench) {
 #if (BENCH)
     bench_struct *b = &benches[bench];
     if (b->running) {
-        ERROR("bench running: %s", bench_cases_names[bench]);
+        ERROR("[DEBUG] bench running: %s", bench_cases_names[bench]);
     }
     b->running = true;
     b->start_time = GET_TIME();
