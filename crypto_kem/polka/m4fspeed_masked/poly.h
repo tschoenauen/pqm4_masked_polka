@@ -12,10 +12,6 @@ typedef c_int poly[N];
 
 // Tools ======================================================================
 
-/**
- * Loads the polynomial to a from an array src.
-*/
-int poly_load(poly a, c_int* src);
 
 /*
  * Performs the addition of a and b, two polynomials in the ring R_qn
@@ -37,7 +33,7 @@ int poly_ring_mul(poly a, poly b, poly prod);
 
 /*
  * Performs the multiplication of a by b, two polynomials in the ring R_qn
- * The result is added to prod.
+ * The result is added to prod. Considered as a multiplication for benchmarks.
 */
 int poly_ring_mul_acc(poly a, poly b, poly prod);
 
@@ -53,17 +49,6 @@ int poly_ring_scal(int a, poly b, poly prod);
 */
 int poly_ring_norm(poly p);
 
-/*
- * Performs the division of a by b, two polynomials in the ring R_qn
- * The result is stored in quotient.
-*/
-int poly_ring_div(poly a, poly b, poly quotient);
-
-/**
- * Computes the inverse of an integer a mod q
-*/
-int integer_ring_inv(int a);
-
 /**
  * Sets all the coefficient of a to 0.
 */
@@ -74,22 +59,6 @@ int poly_ring_init(poly a);
  * Coefficient are sanitized.
 */
 int poly_ring_cpy(poly src, poly target);
-
-/**
- * Returns the degree (aka the index of the highest non null coefficient) of a.
-*/
-int poly_ring_deg(poly a);
-
-/**
- * Computes the inverse of a polynom a mod q.
- * The resuilt is stored in b.
-*/
-int poly_ring_inv(poly a, poly b);
-
-/**
- * Compare two polynomials and returns true if they are equal false otherwise.
-*/
-int poly_ring_eq(poly a, poly b);
 
 
 /**
