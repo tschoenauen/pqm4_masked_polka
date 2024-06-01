@@ -27,14 +27,14 @@ c_int random_uniform(){
     return low15 ^ high16; //As the modulo is a power of 2, I can simply dismiss exceeding bit.
 }
 
-int bit_count = -1; //TODO : Refaire le générateur binomial, là c'est immonde.
+int bit_count = -1;
 
 void reset_bit_count(){
     bit_count = -1;
 }
 
 c_int random_binomial(){
-    // ATTENTION : Cette fonction ne sert qu'à générer un coefficient contrairement à __sample_binomial(self) qui génère un polynôme entier.
+    // ATTENTION : This function only generates a coefficient. __sample_binomial(self) from SageMath generates an entire poly.
 
     //Assert on K;
     if((16 % (2 * K)) != 0) printf("ASSERTION ERROR");
