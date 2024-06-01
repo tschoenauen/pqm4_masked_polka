@@ -34,18 +34,14 @@ int polka_dec_1(plk_cipher* cipher, plk_sk* secret_key, poly rp, poly e1p, poly 
 
 int polka_dec_2(plk_sk* secret_key, poly t, poly c1b){
     msk_poly msk_s;
-    msk_poly msk_t;
+    poly tmp;
 
-    poly_ring_scal(P,c1b,t);
+    poly_ring_scal(P,c1b,tmp);
 
     poly_ring_cpy(secret_key->s,msk_s[0]); // To stay complient with pqm4 API. TODO : For release, we should use masked key.
     for(int i = 1; i < NSHARES; i ++) poly_ring_init(msk_s[i]);
-    msk_poly_ring_mul(t,msk_s,msk_t);
-
-    poly_ring_mul(t,secret_key->s,t);
-
-    unmask_poly(msk_t,t);
-
+    msk_poly_ring_mul(tmp,msk_s,t);
+    
     return 0;
 }
 

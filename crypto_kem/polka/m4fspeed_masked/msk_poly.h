@@ -41,5 +41,6 @@ void msk_poly_ring_scal(int a, msk_poly b, msk_poly prod);
 
 /**
  * Computes ring multiplication between polynomial a and masked polynomial b.
+ * The result in left unmasked
 */
-void msk_poly_ring_mul(poly a, msk_poly b, msk_poly prod);
+void msk_poly_ring_mul(poly a, msk_poly b, poly prod);

@@ -96,7 +96,6 @@ int poly_ring_sub(poly a, poly b, poly diff){
     stop_bench(plk_poly_sub);
     return 1;
 }
-
 int poly_ring_mul(poly a, poly b, poly prod){
     start_bench(plk_poly_mul);
     int64_t result[N];
@@ -114,6 +113,27 @@ int poly_ring_mul(poly a, poly b, poly prod){
         result[i] = ((result[i] % Q) + Q) % Q;
     }
     for(int i = 0; i < N; i++) prod[i] = (c_int) result[i];
+    stop_bench(plk_poly_mul);
+    return 1;
+}
+
+int poly_ring_mul_acc(poly a, poly b, poly prod){
+    start_bench(plk_poly_mul);
+    int64_t result[N];
+    for(int i = 0; i < N; i ++){
+        result[i] = 0;
+        for(int j = 0; j <= i; j++){
+            result[i] += a[j]*b[i-j];
+        }
+        for(int j = i+1; j < N; j++){
+            result[i] -= a[j]*b[i+N-j];
+        }
+    }
+
+    for(int i = 0; i < N; i ++){ // Placing back the coefficient in the ring
+        result[i] = ((result[i] % Q) + Q) % Q;
+    }
+    for(int i = 0; i < N; i++) prod[i] += (c_int) result[i];
     stop_bench(plk_poly_mul);
     return 1;
 }

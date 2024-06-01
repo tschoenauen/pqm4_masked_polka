@@ -24,8 +24,9 @@ void msk_poly_ring_sub(msk_poly a, msk_poly b, msk_poly diff){
     for(int i = 0; i < NSHARES; i ++) poly_ring_sub(a[i],b[i],diff[i]);
 }
 
-void msk_poly_ring_mul(poly a, msk_poly b, msk_poly prod){
-    for(int i = 0; i < NSHARES; i ++) poly_ring_mul(a,b[i],prod[i]); //TODO: check paper.
+void msk_poly_ring_mul(poly a, msk_poly b, poly prod){
+    poly_ring_init(prod);
+    for(int i = 0; i < NSHARES; i ++) poly_ring_mul_acc(a,b[i],prod);
 }
 
 void msk_poly_ring_scal(int a, msk_poly b, msk_poly prod){ //a n'est pas masqué car c'est P dans le schéma, une valeur publique.

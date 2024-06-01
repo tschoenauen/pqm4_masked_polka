@@ -35,6 +35,12 @@ int poly_ring_sub(poly a, poly b, poly diff);
 */
 int poly_ring_mul(poly a, poly b, poly prod);
 
+/*
+ * Performs the multiplication of a by b, two polynomials in the ring R_qn
+ * The result is added to prod.
+*/
+int poly_ring_mul_acc(poly a, poly b, poly prod);
+
 /**
  * Performs a scalar multiplication between integer a and polynomial b.
  * The result is stored in prod.
