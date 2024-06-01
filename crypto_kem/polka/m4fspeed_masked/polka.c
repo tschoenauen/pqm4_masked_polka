@@ -45,42 +45,43 @@ int polka_dec_2(plk_sk* secret_key, poly t, poly c1b){
     return 0;
 }
 
-int polka_dec_3(plk_sk* secret_key, poly c2b, poly t, poly e2b, poly rb, poly c1b, poly e1b){
+int polka_dec_3(plk_sk* secret_key, poly c2b, poly t, poly e2b, poly rb, poly c1b, poly e1b, int* flag){
+    	
     poly mb;
     poly_ring_sub(c2b,t,mb);
 
 
     poly_ring_red(mb,P,e2b);
 
-    if(poly_ring_norm(e2b) > 2*B ) return 1;
+    if(poly_ring_norm(e2b) > 2*B ) *flag = 1;
 
     poly_ring_sub(c2b,e2b,rb);
     poly_ring_mul(rb,secret_key->pk->b_inv,rb);
 
 
-    if(poly_ring_norm(rb) > 2*B ) return 2;
+    if(poly_ring_norm(rb) > 2*B ) *flag = 2;
 
     poly_ring_mul(secret_key->pk->a,rb,e1b);
     poly_ring_sub(c1b,e1b,e1b);
 
-    if(poly_ring_norm(e1b) > 2*B ) return 3;
+    if(poly_ring_norm(e1b) > 2*B ) *flag = 3;
 
     return 0;
 }
 
-int polka_dec_4(poly r, poly rb, poly rp, poly e1, poly e1b, poly e1p, poly e2, poly e2b, poly e2p){
+int polka_dec_4(poly r, poly rb, poly rp, poly e1, poly e1b, poly e1p, poly e2, poly e2b, poly e2p, int* flag){
     poly_ring_sub(rb,rp,r);
 
-    if(poly_ring_norm(r) > B) return 4;
+    if(poly_ring_norm(r) > B) *flag =  4;
 
     poly_ring_sub(e1b,e1p,e1);
 
 
-    if(poly_ring_norm(e1) > B) return 5;
+    if(poly_ring_norm(e1) > B) *flag = 5;
 
     poly_ring_sub(e2b,e2p,e2);
 
-    if(poly_ring_norm(e2) > B) return 6;
+    if(poly_ring_norm(e2) > B) *flag =  6;
     return 0;
 }
 
@@ -170,26 +171,26 @@ int polka_decrypt(plk_cipher* cipher, plk_sk* secret_key, unsigned char* message
     poly e2_prime;
     poly c1_bar;
     poly c2_bar;
-    flag = polka_dec_1(cipher,secret_key,r_prime,e1_prime,e2_prime,c1_bar,c2_bar);
+    polka_dec_1(cipher,secret_key,r_prime,e1_prime,e2_prime,c1_bar,c2_bar);
     stop_bench(plk_dec_1);
 
     start_bench(plk_dec_2);
     poly temp;
-    flag = polka_dec_2(secret_key,temp,c1_bar);
+    polka_dec_2(secret_key,temp,c1_bar);
     stop_bench(plk_dec_2);
 
     start_bench(plk_dec_3);
     poly e2_bar;
     poly e1_bar;
     poly r_bar;
-    flag = polka_dec_3(secret_key,c2_bar,temp,e2_bar, r_bar,c1_bar,e1_bar);
+    polka_dec_3(secret_key,c2_bar,temp,e2_bar, r_bar,c1_bar,e1_bar,&flag);
     stop_bench(plk_dec_3);
 
     start_bench(plk_dec_4);
     poly r;
     poly e1;
     poly e2;
-    flag = polka_dec_4(r,r_bar,r_prime,e1,e1_bar,e1_prime,e2,e2_bar,e2_prime);
+    polka_dec_4(r,r_bar,r_prime,e1,e1_bar,e1_prime,e2,e2_bar,e2_prime,&flag);
     stop_bench(plk_dec_4);
 
     start_bench(plk_dec_5);
