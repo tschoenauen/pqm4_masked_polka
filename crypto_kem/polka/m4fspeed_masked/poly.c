@@ -85,28 +85,14 @@ int poly_random(poly rcv,c_int (*distr)()){
 
 int poly_ring_add(poly a, poly b, poly sum){
     start_bench(plk_poly_add);
-    int64_t result[N];
-    for(int i = 0; i < N; i ++){
-        result[i] = a[i] + b[i]; //TODO : Correct bug where negative values makes bad things.
-    }
-    for(int i = 0; i < N; i ++){ // Placing back the coefficient in the ring
-        result[i] = ((result[i] % Q) + Q) % Q;
-    }
-    for(int i = 0; i < N; i++) sum[i] = (c_int) result[i];
+    for(int i = 0; i < N; i ++) sum[i] = (c_int) ((((uint32_t) a[i]) + ((uint32_t) b[i])) % Q);
     stop_bench(plk_poly_add);
     return 1;
 }
 
 int poly_ring_sub(poly a, poly b, poly diff){
     start_bench(plk_poly_sub);
-    int64_t result[N];
-    for(int i = 0; i < N; i ++){
-        result[i] = Q + a[i] - b[i]; //TODO : Correct bug where negative values makes bad things.
-    }
-    for(int i = 0; i < N; i ++){ // Placing back the coefficient in the ring
-        result[i] = ((result[i] % Q) + Q) % Q;
-    }
-    for(int i = 0; i < N; i++) diff[i] = (c_int) result[i];
+    for(int i = 0; i < N; i ++) diff[i] = (c_int) (( Q + ((uint32_t) a[i]) + ((uint32_t) b[i])) % Q);
     stop_bench(plk_poly_sub);
     return 1;
 }
@@ -134,16 +120,7 @@ int poly_ring_mul(poly a, poly b, poly prod){
 
 int poly_ring_scal(int a, poly b, poly prod){
     start_bench(plk_poly_scal);
-    int64_t result[N];
-    for(int i = 0; i < N; i ++){
-        result[i] = a * b[i];
-    }
-    for(int i = 0; i < N; i ++){
-        result[i] = ((result[i] % Q) + Q) % Q;
-    }
-    for(int i = 0; i < N; i ++){
-        prod[i] = (c_int) result[i];
-    }
+    for(int i = 0; i < N; i ++) prod[i] = (c_int) ((a * ((uint32_t) b[i])) % Q);
     stop_bench(plk_poly_scal);
     return 0;
 }
@@ -151,10 +128,8 @@ int poly_ring_scal(int a, poly b, poly prod){
 int poly_ring_norm(poly p){
     start_bench(plk_poly_norm);
     int norm = p[0];
-    for(int i = 0; i < N; i++){
-        int coeff = 0;
-        if(p[i] >= Q/2) coeff = abs(p[i] - Q);
-        else coeff = p[i];
+    for(int i = 1; i < N; i++){
+        int coeff = (p[i] >= Q/2) ? p[i] : Q-p[i];
         if (norm < coeff) norm = coeff;
     }
     stop_bench(plk_poly_norm);
