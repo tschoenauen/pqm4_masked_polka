@@ -22,12 +22,7 @@
 #include "randombytes.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-// Placeholder for memcpy defined in string.h
-void* memcpy(void* dest, const void* src,size_t n){
-	for(int i = 0; i < (int)n; i ++) ((char*)dest)[i] = ((char*)src)[i];
-	return src;
-}
+#include <string.h>
 
 /************************************************
  * Polka key builder wrapped around sha256.
